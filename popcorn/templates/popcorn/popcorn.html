@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap_toolkit %}
+
+{% block content %}
+	<form class="form-horizontal" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
+		{% csrf_token %}
+	    <fieldset>
+	        <legend>Popcorn</legend>
+	        {{ form|as_bootstrap }}
+	    </fieldset>
+	    <div class="form-actions">
+	    	<div class="btn-group">
+		      <button type="submit" class="btn btn-primary">Submit</button>
+		      <a class="btn btn-danger" onclick="javascript:window.close()">Cancel</a>
+	    	</div>
+	    </div>
+	</form>
+{% endblock %}
