@@ -12,7 +12,9 @@ django_popcorn
         :target: https://crate.io/packages/django_popcorn?version=latest
 
 
-Add-another pop-ups a la django-admin.
+Add-another pop-ups a la django-admin. 
+
+The popup views are implemented using a mixin to the generic CreateView. Also, the popups now support permissions. As a result, a user will onle get the 'add-another' link next to a ForeignKey if he has the add permission for the target model.  
 
 Installation
 ------------
@@ -68,8 +70,8 @@ Read on:
 
     urlpatterns += get_popcorn_urls([PopcornGroup, PopcornPermission])
 
-7. Render your forms using the `boostrap_toolkit's` as_bootstrap filter: :: 
+7. Render your forms using `django_reform` reform tag: :: 
 
-    {{ form|as_bootstrap }}
+    {% reform form %}
 
-8. Check out the demo project for a working implementation.
+8. If you are having any problems, please check out the demo project for a working implementation.

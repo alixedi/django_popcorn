@@ -7,3 +7,8 @@ History
 ++++++++++++++++++
 
 * First release on PyPI.
+
+0.2.0 (2013-12-9)
+++++++++++++++++++
+
+* Added support for permissions. 
