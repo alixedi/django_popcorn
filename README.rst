@@ -68,10 +68,19 @@ Read on:
 
 6. Use the utility function to generate popcorn urls: ::
 
+    urlpatterns = patterns('',
+        url(r'^$', CreateUser.as_view(), name='auth_user_create'),
+        url(r'^admin/', include(admin.site.urls)),
+    )
+
     urlpatterns += get_popcorn_urls([PopcornGroup, PopcornPermission])
 
 7. Render your forms using `django_reform` reform tag: :: 
 
     {% reform form %}
 
-8. If you are having any problems, please check out the demo project for a working implementation.
+8. Open up a browser, type-in `http://localhost:8000`. You will not see add-another links next to ForeignKey fields.
+
+9. Log-in using the admin interface, visit `http://localhost:8000` again. The form now should have add-another links next to the ForeignKey fields.
+
+10. If you are having any problems, please check out the demo project for a working implementation.
