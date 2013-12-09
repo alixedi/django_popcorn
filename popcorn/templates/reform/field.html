@@ -3,7 +3,7 @@
 {% with field_type=field|get_form_field_type %}
 
     {% if field_type == 'ModelChoiceField' or field_type == 'ModelMultipleChoiceField' %}
-        {{ field }} {{ field|get_popup_link }}
+        {{ field }} {% popcorn field %}
 
     {% elif field_type == 'DateField' %}
         {% render_field field type="date" %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load bootstrap_toolkit %}
+{% load reform %}
 
 {% block content %}
     <div class="container" style="margin: auto; max-width: 700px;">
@@ -7,7 +7,7 @@
         	{% csrf_token %}
             <fieldset>
                 <legend>Create User</legend>
-                {{ form|as_bootstrap }}
+                {% reform form %}
             </fieldset>
             <div class="form-actions">
                 <div class="btn-group">
