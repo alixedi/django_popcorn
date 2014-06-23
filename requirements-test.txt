@@ -2,5 +2,6 @@ django>=1.5.1
 coverage
 nose>=1.3.0
 django-nose>=1.2
+django-with-asserts==0.0.1
 
 # Additional test requirements go here
