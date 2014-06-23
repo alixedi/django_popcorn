@@ -57,7 +57,7 @@ Read on:
 4. We will create a view for ``auth.User`` and use the utility ``get_popcorn_urls`` function to generate popcorn views and urls: ::
 
     urlpatterns = patterns('',
-        url(r'^$', CreateUser.as_view(), name='auth_user_create'),
+        url(r'^$', CreateView.as_view(model=User, success_url='.'), name='auth_user_create'),
         url(r'^admin/', include(admin.site.urls)),
     )
 
@@ -65,15 +65,11 @@ Read on:
 
 7. Render your forms like so: :: 
 
-    {% for field in form.visible_fields %}
-        <p>
-        {% with field_type=field|get_form_field_type %}
-            {{ field.label_tag }} {{ field }} 
-            {% if field_type == 'ModelChoiceField' or field_type == 'ModelMultipleChoiceField' %}
-                {% popcorn field %} 
-            {% endif %}
-        {% endwith %}
-        </p>
-    {% endfor %}
+        <form method="POST" action="{{ request.get_full_path }}">
+            {% csrf_token %}
+            {% include 'popcorn/form.html' %}
+            <button type="submit">Submit</button>
+            <a href="../">Cancel</a>
+        </form>
 
 Thats it! sync your DB, run the dev server and fire up your browser at localhost. You should see a form **wthout** the ``add-another`` links. This is because popcorn add-another links are only enabled for users who have add permission for the target model. Now log-in - possibly via admin after enabling it and hit localhost again. You should see a little ``+`` next to ForeignKey and ManyToMany fields. Click it and the add-another popup would appear. If you are having any problems, please check out the test project for a working implementation.
