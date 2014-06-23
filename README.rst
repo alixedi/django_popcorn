@@ -14,14 +14,14 @@ django_popcorn
 
 Add-another pop-ups a la django-admin. 
 
-The popup views are implemented using a mixin to the generic CreateView. Also, the popups now support permissions. As a result, a user will onle get the 'add-another' link next to a ForeignKey if he has the add permission for the target model.  
+The popup views are implemented using a mixin to the generic CreateView. Also, the popups now support permissions. As a result, a user will onle get the 'add-another' link next to a ForeignKey if he has the add permission for the target model. 
 
 Installation
 ------------
 
 Get it from the cheeseshop: ::
 
-    pip install django_coffee_table
+    pip install django_popcorn
 
 
 Usage
@@ -32,13 +32,8 @@ Read on:
 1. Include the following in your `INSTALLED_APPS` settings: ::
 
     'popcorn',
-    'reform',
-    'bootstrap_toolkit',
-    'widget_tweaks',
 
-2. Uncomment `django.contrib.admin` in the `INSTALLED_APPS` settings.
-
-3. Add this to your settings.py (If you do not already have it): ::
+2. Add this to your settings.py (If you do not already have it): ::
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         "django.contrib.auth.context_processors.auth",
@@ -51,36 +46,32 @@ Read on:
         "popcorn.context_processors.admin_media_prefix",
     )
 
-4. Add the following to your base.html template: ::
+    POPCORN_MODELS = ('auth.Group', 'auth.Permission')
+
+3. Add the following to your base.html template: ::
 
     <script src="{{ ADMIN_MEDIA_PREFIX }}js/admin/RelatedObjectLookups.js"></script>
 
-5. Write a few views - use PopcornMixin for popup views: ::
-
-    class CreateUser(CreateView):
-        model = User
-
-    class PopcornGroup(PopcornMixin, CreateView):
-        model = Group
-
-    class PopcornPermission(PopcornMixin, CreateView):
-        model = Permission 
-
-6. Use the utility function to generate popcorn urls: ::
+4. We will create a view for `auth.User` and use the utility `get_popcorn_urls` function to generate popcorn views and urls: ::
 
     urlpatterns = patterns('',
         url(r'^$', CreateUser.as_view(), name='auth_user_create'),
         url(r'^admin/', include(admin.site.urls)),
     )
 
-    urlpatterns += get_popcorn_urls([PopcornGroup, PopcornPermission])
+    urlpatterns += get_popcorn_urls()
 
-7. Render your forms using `django_reform` reform tag: :: 
+7. Render your forms like so: :: 
 
-    {% reform form %}
+    {% for field in form.visible_fields %}
+        <p>
+        {% with field_type=field|get_form_field_type %}
+            {{ field.label_tag }} {{ field }} 
+            {% if field_type == 'ModelChoiceField' or field_type == 'ModelMultipleChoiceField' %}
+                {% popcorn field %} 
+            {% endif %}
+        {% endwith %}
+        </p>
+    {% endfor %}
 
-8. Open up a browser, type-in `http://localhost:8000`. You will not see add-another links next to ForeignKey fields.
-
-9. Log-in using the admin interface, visit `http://localhost:8000` again. The form now should have add-another links next to the ForeignKey fields.
-
-10. If you are having any problems, please check out the demo project for a working implementation.
+Thats it! sync your DB, run the dev server and fire up your browser at localhost:8000. You should see a form wthout the add-another links. This is because popcorn add-another links have permission checks. Now enable the admin, go to localhost:8000/admin and log-in. Open-up localhost:8000 again, you should see little `+` links next to ForeignKey and ManyToMany fields. Click them and the add-another popup would appear. If you are having any problems, please check out the test project for a working implementation.
