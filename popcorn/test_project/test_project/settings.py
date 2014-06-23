@@ -1,7 +1,4 @@
-# Django settings for demo_project project.
-
-from os.path import abspath, dirname, join
-PROJECT_ROOT = abspath(dirname(__file__))
+# Django settings for test_project project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -16,11 +13,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'database.sql',
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -105,16 +97,15 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'demo_project.urls'
+ROOT_URLCONF = 'test_project.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'demo_project.wsgi.application'
+WSGI_APPLICATION = 'test_project.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    join(PROJECT_ROOT, 'templates')
 )
 
 INSTALLED_APPS = (
@@ -128,14 +119,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-
-    ############################ WARNING ############################
-    # The order of these apps is important to get everything working!
-    #################################################################
+    'bookstore',
     'popcorn',
-    'reform',
-    'bootstrap_toolkit',
-    'widget_tweaks',
+    # This for running tests only
+    'django_nose',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -179,3 +166,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "popcorn.context_processors.admin_media_prefix",
 )
+
+POPCORN_MODELS = ('bookstore.Publisher',
+                  'bookstore.Author',)
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=popcorn',
+]

@@ -15,3 +15,8 @@ def popcorn(context, field):
     context['view_name'] = view_name
     context['has_perm'] = perm in context['perms']
     return get_template('popcorn/link.html').render(context)
+
+@register.filter
+def get_form_field_type(field):
+    """Returns value for the given field for a form."""
+    return field.field.__class__.__name__
