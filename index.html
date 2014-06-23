@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Django popcorn by alixedi</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Django popcorn</h1>
+        <p>Add-another pop-ups a la django-admin.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/alixedi/django_popcorn" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/alixedi/django_popcorn/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/alixedi/django_popcorn/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="django_popcorn" class="anchor" href="#django_popcorn"><span class="octicon octicon-link"></span></a>django_popcorn</h1>
+
+<p><img src="https://badge.fury.io/py/django_popcorn.png" alt="http://badge.fury.io/py/django_popcorn"><img src="https://travis-ci.org/alixedi/django_popcorn.png?branch=master" alt="https://travis-ci.org/alixedi/django_popcorn"><img src="https://pypip.in/d/django_popcorn/badge.png" alt="https://crate.io/packages/django_popcorn?version=latest"><img src="https://coveralls.io/repos/alixedi/django_popcorn/badge.png" alt="https://coveralls.io/r/alixedi/django_popcorn"></p>
+
+<p>Add-another pop-ups a la <code>django-admin</code>.</p>
+
+<p>The popup views are implemented using a mixin to the generic CreateView. Also, the popups now support permissions. As a result, a user will only get the <code>add-another</code> link next to a ForeignKey or a ManyToMany field if he has the add permission for the target model.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Get it from the cheeseshop: :</p>
+
+<pre><code>pip install django_popcorn
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ol>
+<li>
+<p>Include the following in your <code>INSTALLED_APPS</code> settings: :</p>
+
+<pre><code>'popcorn',
+</code></pre>
+</li>
+<li>
+<p>Add this to your <code>settings.py</code> (If you do not already have it): :</p>
+
+<pre><code>TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
+    "popcorn.context_processors.admin_media_prefix",
+)
+
+POPCORN_MODELS = ('auth.Group', 'auth.Permission')
+</code></pre>
+</li>
+<li>
+<p>Add the following to your <code>base.html</code> template: :</p>
+
+<pre><code>&lt;script src="{{ ADMIN_MEDIA_PREFIX }}js/admin/RelatedObjectLookups.js"&gt;&lt;/script&gt;
+</code></pre>
+</li>
+<li>
+<p>We will create a view for <code>auth.User</code> and use the utility <code>get_popcorn_urls</code> function to generate popcorn views and urls: :</p>
+
+<pre><code>urlpatterns = patterns('',
+    url(r'^$', CreateView.as_view(model=User, success_url='.'), name='auth_user_create'),
+    url(r'^admin/', include(admin.site.urls)),
+)
+
+urlpatterns += get_popcorn_urls()
+</code></pre>
+</li>
+<li>
+<p>Render your forms like so: :</p>
+
+<pre><code>&lt;form method="POST" action="{{ request.get_full_path }}"&gt;
+    {% csrf_token %}
+    {% include 'popcorn/form.html' %}
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;a href="../"&gt;Cancel&lt;/a&gt;
+&lt;/form&gt;
+</code></pre>
+</li>
+</ol><p>Thats it! sync your DB, run the dev server and fire up your browser at localhost. You should see a form wthout the <code>add-another</code> links. This is because popcorn add-another links are only enabled for users who have add permission for the target model. Now log-in - possibly via admin after enabling it and hit localhost again. You should see a little <code>+</code> next to ForeignKey and ManyToMany fields. Click it and the add-another popup would appear. If you are having any problems, please check out the test project for a working implementation</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/alixedi">alixedi</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-51375524-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
