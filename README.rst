@@ -72,4 +72,4 @@ Read on:
             <a href="../">Cancel</a>
         </form>
 
-Thats it! sync your DB, run the dev server and fire up your browser at localhost. You should see a form **wthout** the ``add-another`` links. This is because popcorn add-another links are only enabled for users who have add permission for the target model. Now log-in - possibly via admin after enabling it and hit localhost again. You should see a little ``+`` next to ForeignKey and ManyToMany fields. Click it and the add-another popup would appear. If you are having any problems, please check out the test project for a working implementation.
+Thats it! sync your DB, run the dev server and fire up your browser at localhost. You should see a form wthout the ``add-another`` links. This is because popcorn add-another links are only enabled for users who have add permission for the target model. Now log-in - possibly via admin after enabling it and hit localhost again. You should see a little ``+`` next to ForeignKey and ManyToMany fields. Click it and the add-another popup would appear. If you are having any problems, please check out the test project for a working implementation.
