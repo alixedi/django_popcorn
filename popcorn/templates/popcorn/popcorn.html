@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<form class="form-horizontal" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
-		{% csrf_token %}
+<form class="form-horizontal" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
+{% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>&nbsp;
-		<a onclick="javascript:window.close()">Cancel</a>
-	</form>
+<a onclick="javascript:window.close()">Cancel</a>
+</form>
 {% endblock %}

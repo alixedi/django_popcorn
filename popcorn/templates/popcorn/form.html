@@ -1,0 +1,11 @@
+{% load popcorn %}
+
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+{% for field in form.visible_fields %}
+    <p>
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }} {% popcorn field %}
+    </p>
+{% endfor %}

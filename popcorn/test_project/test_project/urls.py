@@ -11,7 +11,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', CreateView.as_view(model=Book), name='bookstore_book_create'),
+    url(r'^$', 
+    	CreateView.as_view(model=Book, success_url='.'), 
+    	name='bookstore_book_create'),
+    
     url(r'^admin/', include(admin.site.urls)),
 )
 

@@ -1,21 +1,10 @@
 {% extends 'base.html' %}
-{% load popcorn %}
 
 {% block content %}
     <div style="margin: auto; max-width: 700px;">
         <form method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                <p>
-                {% with field_type=field|get_form_field_type %}
-                    {{ field.errors }}
-                    {{ field.label_tag }} {{ field }} {% if field_type == 'ModelChoiceField' or field_type == 'ModelMultipleChoiceField' %}{% popcorn field %} {% endif %}
-                {% endwith %}
-                </p>
-            {% endfor %}
+            {% include 'popcorn/form.html' %}
             <button type="submit">Submit</button>
             <a href="../">Cancel</a>
         </form>
