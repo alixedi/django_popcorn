@@ -11,6 +11,8 @@ django_popcorn
 .. image:: https://pypip.in/d/django_popcorn/badge.png
         :target: https://crate.io/packages/django_popcorn?version=latest
 
+.. image:: https://coveralls.io/repos/alixedi/django_popcorn/badge.png
+  :target: https://coveralls.io/r/alixedi/django_popcorn
 
 Add-another pop-ups a la django-admin. 
 
